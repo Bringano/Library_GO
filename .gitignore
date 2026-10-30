@@ -1,2 +1,10 @@
 # Ignore VS Code files
 .vscode/*
+
+# Ignore JetBrains files
+.idea/
+
+# Ignore local environment files
+.env
+.env.*
+!.env.example
