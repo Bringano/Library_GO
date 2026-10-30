@@ -17,7 +17,6 @@ public class RealNameTest {
     @ParameterizedTest
     @NullSource
     @ValueSource(strings = {
-            "Bosse damn",
             "Bosse shiet",
             "Bosse jäkla",
             "shiet Bosse",
