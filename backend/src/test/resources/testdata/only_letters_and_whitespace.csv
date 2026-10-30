@@ -1,0 +1,10 @@
+input,expected
+bosse,bosse
+BoSSe,bosse
+Bosse Bula,bosse bula
+b0ss3!,bss
+a-b_c.d,abcd
+"  a  ","  a  "
+åÄö,åäö
+123!?,""
+"",""

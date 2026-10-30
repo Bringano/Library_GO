@@ -1,0 +1,10 @@
+input,expected
+13456780,leasgtbo
+h3ll0,hello
+H3LL0,hello
+b0ss3!,bosse
+1 3,l e
+åÄ4,åäa
+a2b9,ab
+!?-,""
+"",""

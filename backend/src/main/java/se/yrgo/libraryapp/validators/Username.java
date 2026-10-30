@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * I.e. no funny characters or whitespace and at least four characters long.
  */
 public final class Username {
-    private static Pattern regex = Pattern.compile("[@._a-zA-Z0-]{4,}");
+    private static Pattern regex = Pattern.compile("[-@._a-zA-Z0-9]{4,}");
 
     private Username() {}
 
@@ -24,6 +24,10 @@ public final class Username {
      * 
      */
     public static boolean validate(String name) {
+
+        if (name == null) {
+            return false;
+        }
         return regex.matcher(name).matches();
     }
 }
