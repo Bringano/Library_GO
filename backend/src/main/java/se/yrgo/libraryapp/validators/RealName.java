@@ -42,7 +42,7 @@ public final class RealName {
      */
     public static boolean validate(String name) {
         String cleanName = Utils.cleanAndUnLeet(name);
-        String[] words = cleanName.split("\\W+");
+        String[] words = cleanName.split("\\s+");
         for (int i = 0; i < words.length; i++) {
             if (invalidWords.contains(words[i])) {
                 return false;
