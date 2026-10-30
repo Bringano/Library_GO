@@ -31,7 +31,7 @@ class Utils {
      * @return a string without non alphabetic characters (except whitespace)
      */
     static String cleanAndUnLeet(String str) {
-        final var leetMap = Map.of('1', 'l', '3', 'e', '4', 'a', '5', 's', '6', 'b', '7', 't', '8', 'b', '0', 'o');
+        final var leetMap = Map.of('1', 'l', '3', 'e', '4', 'a', '5', 's', '6', 'g', '7', 't', '8', 'b', '0', 'o');
 
         final StringBuilder res = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
