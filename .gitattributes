@@ -1,0 +1,12 @@
+*          text=auto
+
+# *nix scripts should be lf
+*.bash     text eol=lf
+*.fish     text eol=lf
+*.sh       text eol=lf
+*.zsh      text eol=lf
+
+# windows scripts should be crlf
+*.bat      text eol=crlf
+*.cmd      text eol=crlf
+*.ps1      text eol=crlf
