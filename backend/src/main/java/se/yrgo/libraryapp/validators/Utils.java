@@ -17,9 +17,9 @@ class Utils {
      * @return a string with all non-letters removed (except whitespace)
      */
     static String onlyLettersAndWhitespace(String str) {
-        return str.chars().filter(cp -> Character.isLetter(cp) || Character.isWhitespace(cp))
+        return str.toLowerCase().chars().filter(cp -> Character.isLetter(cp) || Character.isWhitespace(cp))
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString().toLowerCase();
+                .toString();
     }
 
     /**
