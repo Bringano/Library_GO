@@ -41,3 +41,4 @@ build
 
 # other
 tmp/*
+.jqwik-database
