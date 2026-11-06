@@ -30,7 +30,7 @@ public class RoleDao {
                         "SELECT r.role FROM user_role AS ur JOIN role AS r ON ur.role_id = r.id WHERE ur.user_id = '"
                                 + userId + "'")) {
             while (rs.next()) {
-                roles.add(Role.fromString(rs.getString("r.role")));
+                roles.add(Role.fromString(rs.getString("role")));
             }
 
             return roles;
