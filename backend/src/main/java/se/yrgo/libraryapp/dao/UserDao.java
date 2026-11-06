@@ -73,9 +73,6 @@ public class UserDao {
     }
 
     public boolean isNameAvailable(String name) {
-        if (name == null || name.trim().length() < 3) {
-            return false;
-        }
 
         String query = "SELECT id FROM user WHERE user = ?";
         try (Connection conn = ds.getConnection();
