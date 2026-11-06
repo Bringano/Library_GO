@@ -40,4 +40,35 @@ public class UserServiceTest {
         assertThat(userService.validate(username,
                 password)).isEqualTo(Optional.of(id));
     }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void unknownUsernameGivesEmpty() {
+        final String username = "testuser";
+        final PasswordEncoder encoder =
+                org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        when(userDao.getLoginInfo(username)).thenReturn(Optional.empty());
+
+        UserService userService = new UserService(userDao, encoder);
+
+        assertThat(userService.validate(username, "password")).isEmpty();
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void wrongPasswordGivesEmpty() {
+        final UserId id = UserId.of(1);
+        final String username = "testuser";
+        final LoginInfo info = new LoginInfo(id, "password");
+        final PasswordEncoder encoder =
+                org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        when(userDao.getLoginInfo(username)).thenReturn(Optional.of(info));
+
+        UserService userService = new UserService(userDao, encoder);
+
+        assertThat(userService.validate(username, "wrongpassword")).isEmpty();
+    }
+
 }
