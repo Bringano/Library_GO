@@ -60,7 +60,7 @@ public class UserDao {
     public boolean register(String name, String realname, String passwordHash) {
 
         // handle names like Ian O'Toole
-        realname = realname.replace("'", "\\'");
+        realname = realname.replace("'", "''");
 
         try (Connection conn = ds.getConnection()) {
             conn.setAutoCommit(false);
