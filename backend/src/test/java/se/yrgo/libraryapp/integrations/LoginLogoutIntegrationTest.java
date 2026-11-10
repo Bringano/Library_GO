@@ -1,6 +1,7 @@
 package se.yrgo.libraryapp.integrations;
 
 import java.io.IOException;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,6 +10,7 @@ import java.net.http.HttpResponse;
 
 import io.jooby.JoobyTest;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.MySQLContainer;
@@ -43,6 +45,40 @@ public class LoginLogoutIntegrationTest {
         System.clearProperty("db.password");
     }
 
+    private HttpClient client;
+
+    @BeforeEach
+    void createClient() {
+        client = HttpClient.newBuilder()
+                .cookieHandler(new CookieManager())
+                .build();
+    }
+
+    @Test
+    public void canLoginAndLogout(int serverPort) throws Exception {
+        HttpResponse<String> loginResponse = postJson(serverPort, "/login",
+                "{\"username\":\"test\",\"password\":\"yrgoP4ssword\"}");
+        assertEquals(200, loginResponse.statusCode());
+
+        HttpResponse<String> logoutResponse = get(serverPort, "/logout");
+
+        assertEquals(200, logoutResponse.statusCode());
+    }
+
+    private HttpResponse<String> get(int port, String path) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + path))
+                .build();
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private HttpResponse<String> postJson(int port, String path, String json) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + path))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     @Test
     public void alwaysOkToLogout(int serverPort) throws IOException {
         try {
@@ -54,8 +90,7 @@ public class LoginLogoutIntegrationTest {
 
             assertEquals("", resp.body());
             assertEquals(HttpURLConnection.HTTP_OK, resp.statusCode());
-        }
-        catch (IllegalArgumentException | InterruptedException ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             fail(ex);
         }
     }
