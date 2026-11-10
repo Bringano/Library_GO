@@ -1,8 +1,6 @@
 package se.yrgo.libraryapp.integrations;
 
-import java.io.IOException;
 import java.net.CookieManager;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -19,8 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import se.yrgo.libraryapp.App;
 
-import static org.assertj.core.api.Fail.fail;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("integration")
 @Tag("foobar")
@@ -65,6 +62,21 @@ public class LoginLogoutIntegrationTest {
         assertEquals(200, logoutResponse.statusCode());
     }
 
+    @Test
+    public void alwaysOkToLogout(int serverPort) throws Exception {
+        HttpResponse<String> logoutResponse = get(serverPort, "/logout");
+
+        assertEquals("", logoutResponse.body());
+        assertEquals(200, logoutResponse.statusCode());
+    }
+
+    @Test
+    public void cantLoginWithWrongPassword(int serverPort) throws Exception {
+        HttpResponse<String> loginResponse = postJson(serverPort, "/login",
+                "{\"username\":\"test\",\"password\":\"wrong\"}");
+        assertEquals(401, loginResponse.statusCode());
+    }
+
     private HttpResponse<String> get(int port, String path) throws Exception {
         HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + path))
                 .build();
@@ -78,22 +90,5 @@ public class LoginLogoutIntegrationTest {
                 .build();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
-
-    @Test
-    public void alwaysOkToLogout(int serverPort) throws IOException {
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest req = HttpRequest.newBuilder(
-                    URI.create("http://localhost:" + serverPort + "/logout")).build();
-
-            HttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());
-
-            assertEquals("", resp.body());
-            assertEquals(HttpURLConnection.HTTP_OK, resp.statusCode());
-        } catch (IllegalArgumentException | InterruptedException ex) {
-            fail(ex);
-        }
-    }
-
 
 }
