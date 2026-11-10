@@ -188,11 +188,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>io.jooby</groupId>
-      <artifactId>jooby-test</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
